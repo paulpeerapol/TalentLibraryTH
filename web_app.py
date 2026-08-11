@@ -23,6 +23,14 @@ os.makedirs(ASSETS_DIR, exist_ok=True)
 # 1. Base Data Loading (Cached)
 # ----------------------------------------------------
 @st.cache_data(ttl="1h")
+@st.cache_data
+def load_matched_courses():
+    matched_path = os.path.join(ASSETS_DIR, "matched_courses.json")
+    if os.path.exists(matched_path):
+        with open(matched_path, "r", encoding="utf-8") as f:
+            return set(json.load(f))
+    return set()
+
 def load_base_data():
     courses = []
     if os.path.exists(COURSES_PATH):
@@ -328,6 +336,7 @@ PARENT_CATS_MAP = {
 }
 
 all_courses_list, titles_map, meta_map = load_base_data()
+matched_courses_set = load_matched_courses()
 
 # ----------------------------------------------------
 # 1.5. Subcategory to Parent Category Map (Max 12 Parent Categories)
@@ -594,9 +603,18 @@ def show_course_details(course, api_key):
     with st.spinner("กำลังโหลดวิดีโอแนะนำและแปลเนื้อหาเป็นภาษาไทย..."):
         details = get_course_details(course, api_key)
         
-    # Title Display
+    # Title Display & Video Availability Check
+    matched_set = load_matched_courses()
+    has_video = course["objectID"] in matched_set
     title_th = titles_map.get(course["title"], course["title"])
-    st.markdown(f"<h1 style='font-size: 2.2rem; font-weight: 700; margin-top: -35px; margin-right: 60px; margin-bottom: 2px; color: #0F172A; line-height: 1.25; font-family: \"Prompt\", sans-serif;'>{title_th}</h1>", unsafe_allow_html=True)
+    if has_video:
+        title_th = title_th + " *"
+        title_color = "#047857" # Dark Green
+        st.success("🟢 มีไฟล์วิดีโอเนื้อหาของหลักสูตรนี้ในคลัง H:\\4 TalentLibrary เรียบร้อยแล้ว *")
+    else:
+        title_color = "#0F172A"
+        
+    st.markdown(f"<h1 style='font-size: 2.2rem; font-weight: 700; margin-top: -35px; margin-right: 60px; margin-bottom: 2px; color: {title_color}; line-height: 1.25; font-family: \"Prompt\", sans-serif;'>{title_th}</h1>", unsafe_allow_html=True)
     st.markdown(f"<div style='font-size: 1.1rem; color: #64748B; margin-bottom: 20px; font-weight: 500; font-family: \"Prompt\", sans-serif; margin-right: 60px;'>{course['title']}</div>", unsafe_allow_html=True)
     
     # Content Columns (Moved directly under the titles)
@@ -916,6 +934,8 @@ def main():
     q = search_query.strip().lower()
     
     for c in all_courses_list:
+        if selected_video_only and c.get('objectID') not in matched_courses_set:
+            continue
         # Parent Category filter
         if selected_parent != "All":
             has_parent = False
@@ -1024,10 +1044,25 @@ def main():
                     
                     st.image(image_url, width='stretch')
                     
-                    # Course Name as Clickable Hyperlink (Thai)
+                    # Check if course has matched video file in H:\4 TalentLibrary
+                    obj_id = course["objectID"]
+                    has_video = obj_id in matched_courses_set
                     t_th = titles_map.get(course["title"], course["title"])
-                    if st.button(t_th, key=f"title_{course['objectID']}", type="primary", use_container_width=True):
-                        show_course_details(course, api_key)
+                    if has_video:
+                        t_th = t_th + " *"
+                        title_color = "#047857" # Dark Green
+                        badge_html = "<span style='background-color: #D1FAE5; color: #047857; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; margin-left: 4px;'>📹 มีไฟล์วิดีโอ</span>"
+                    else:
+                        title_color = "#0284C7" # Standard Blue
+                        badge_html = ""
+                        
+                    st.markdown(f"""
+                        <div style='font-family: "Prompt", sans-serif; margin-bottom: 6px;'>
+                            <div style='color: {title_color}; font-weight: 700; font-size: 1.02rem; line-height: 1.35;'>
+                                {t_th} {badge_html}
+                            </div>
+                        </div>
+                    """, unsafe_allow_html=True)
                         
                     # Category, English Title and Skills consolidated into a single compact HTML block to minimize spacing
                     cat_parent = PARENT_CATS_MAP.get(course.get("cats", [""])[0], PARENT_CATS_MAP.get(html.unescape(course.get("cats", [""])[0]), "ทั่วไปและอื่นๆ (General & Others)"))
@@ -1035,7 +1070,7 @@ def main():
                     tags_th = [meta_map["tags"].get(t, t) for t in course.get("tags", [])[:2]]
                     
                     st.markdown(f"""
-                        <div style='margin-top: -6px; line-height: 1.35; font-family: "Prompt", sans-serif;'>
+                        <div style='margin-top: -2px; line-height: 1.35; font-family: "Prompt", sans-serif;'>
                             <div style='color: #64748B; font-size: 0.82rem; margin-bottom: 4px;'>{course['title']}</div>
                             <div style='color: #475569; font-size: 0.8rem; font-weight: 500; margin-bottom: 3px;'>📁 {cat_parent} • {subcat_th}</div>
                             <div style='color: #0284C7; font-size: 0.8rem; font-weight: 500;'>💡 {', '.join(tags_th)}</div>
@@ -1045,7 +1080,8 @@ def main():
                     st.markdown("<div style='margin-top: 8px;'></div>", unsafe_allow_html=True)
                     
                     # View details button
-                    if st.button("🔍 ดูรายละเอียดวิชา", key=f"det_{course['objectID']}", use_container_width=True):
+                    btn_label = "🎬 ดูรายละเอียด & วิดีโอ *" if has_video else "🔍 ดูรายละเอียดวิชา"
+                    if st.button(btn_label, key=f"det_{course['objectID']}", use_container_width=True, type="primary" if has_video else "secondary"):
                         show_course_details(course, api_key)
                         
         # 9.6 Pagination Buttons Render
