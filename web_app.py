@@ -754,12 +754,11 @@ def main():
             font-family: inherit !important;
         }
         
-        /* Complete reset for all title link buttons: NO background, NO border, NO box shadow */
-        .matched-title-wrapper div.stButton > button,
-        .matched-title-wrapper div.stButton > button[data-testid="stBaseButton-secondary"],
-        .standard-title-wrapper div.stButton > button,
-        .standard-title-wrapper div.stButton > button[data-testid="stBaseButton-secondary"],
-        div[data-testid="stButton"] button[key^="title_"] {
+        /* Target the FIRST button inside every course card container (the Title link) */
+        [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button,
+        [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button:hover,
+        [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button:focus,
+        [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button:active {
             background: transparent !important;
             background-color: transparent !important;
             border: none !important;
@@ -780,53 +779,15 @@ def main():
             min-height: 0 !important;
         }
 
-        /* Force transparent background on hover, focus, active */
-        .matched-title-wrapper div.stButton > button:hover,
-        .matched-title-wrapper div.stButton > button:focus,
-        .matched-title-wrapper div.stButton > button:active,
-        .standard-title-wrapper div.stButton > button:hover,
-        .standard-title-wrapper div.stButton > button:focus,
-        .standard-title-wrapper div.stButton > button:active {
-            background: transparent !important;
-            background-color: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            outline: none !important;
-        }
-
-        /* Matched title text styling: Dark Green #047857, Large 1.4rem Font */
-        .matched-title-wrapper div.stButton > button *,
-        .matched-title-wrapper div.stButton > button p,
-        .matched-title-wrapper div.stButton > button span,
-        .matched-title-wrapper div.stButton > button div {
-            color: #047857 !important;
-            font-size: 1.4rem !important;
+        /* Large Font size & hover underline for title buttons */
+        [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button * {
+            font-size: 1.35rem !important;
             font-weight: 700 !important;
             line-height: 1.3 !important;
             text-align: left !important;
         }
-        .matched-title-wrapper div.stButton > button:hover *,
-        .matched-title-wrapper div.stButton > button:hover p,
-        .matched-title-wrapper div.stButton > button:hover span {
-            color: #065F46 !important;
-            text-decoration: underline !important;
-        }
-
-        /* Standard title text styling: Blue #0284C7, Large 1.4rem Font */
-        .standard-title-wrapper div.stButton > button *,
-        .standard-title-wrapper div.stButton > button p,
-        .standard-title-wrapper div.stButton > button span,
-        .standard-title-wrapper div.stButton > button div {
-            color: #0284C7 !important;
-            font-size: 1.4rem !important;
-            font-weight: 700 !important;
-            line-height: 1.3 !important;
-            text-align: left !important;
-        }
-        .standard-title-wrapper div.stButton > button:hover *,
-        .standard-title-wrapper div.stButton > button:hover p,
-        .standard-title-wrapper div.stButton > button:hover span {
-            color: #0369A1 !important;
+        
+        [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button:hover * {
             text-decoration: underline !important;
         }
         </style>
@@ -1064,16 +1025,12 @@ def main():
                     t_th = titles_map.get(course["title"], course["title"])
                     
                     if has_video:
-                        t_th_display = f"{t_th} * 🇹🇭"
-                        st.markdown("<div class='matched-title-wrapper'>", unsafe_allow_html=True)
-                        if st.button(t_th_display, key=f"title_{course['objectID']}", use_container_width=True):
-                            show_course_details(course, api_key)
-                        st.markdown("</div>", unsafe_allow_html=True)
+                        t_th_display = f":green[**{t_th} * 🇹🇭**]"
                     else:
-                        st.markdown("<div class='standard-title-wrapper'>", unsafe_allow_html=True)
-                        if st.button(t_th, key=f"title_{course['objectID']}", use_container_width=True):
-                            show_course_details(course, api_key)
-                        st.markdown("</div>", unsafe_allow_html=True)
+                        t_th_display = f":blue[**{t_th}**]"
+                        
+                    if st.button(t_th_display, key=f"title_{course['objectID']}", use_container_width=True):
+                        show_course_details(course, api_key)
                         
                     # Category, English Title and Skills consolidated into a single compact HTML block to minimize spacing
                     cat_parent = PARENT_CATS_MAP.get(course.get("cats", [""])[0], PARENT_CATS_MAP.get(html.unescape(course.get("cats", [""])[0]), "ทั่วไปและอื่นๆ (General & Others)"))
