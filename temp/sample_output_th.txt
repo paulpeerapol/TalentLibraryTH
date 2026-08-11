@@ -1,0 +1,35 @@
+=== TITLES SAMPLE ===
+A Healthy Manager is a Good Manager -> ผู้จัดการที่สุขภาพดีคือผู้จัดการที่ดี
+A Walkthrough of Business Operating Models -> เจาะลึกรูปแบบการดำเนินงานทางธุรกิจ
+AI Literacy for Leaders -> ความรอบรู้ด้าน AI สำหรับผู้นำ
+AI and Workplace Automation -> AI กับระบบอัตโนมัติในสถานที่ทำงาน
+AI for Accessibility -> AI เพื่อการเข้าถึง
+AI-Powered Copy -> การเขียนคำโฆษณาด้วยพลัง AI
+AI-Powered Recruitment -> การสรรหาบุคลากรด้วยพลัง AI
+Accounting Ethics -> จริยธรรมทางการบัญชี
+Achieving Clarity -> การสร้างความชัดเจนในการทำงาน
+Active Listening at Work -> การฟังอย่างตั้งใจในที่ทำงาน
+
+=== CATEGORIES SAMPLE ===
+Adaptive Leadership -> ภาวะผู้นำที่ปรับตัวได้
+Artificial Intelligence (AI) -> ปัญญาประดิษฐ์ (AI)
+Business Continuity Applied -> การบริหารความต่อเนื่องทางธุรกิจภาคปฏิบัติ
+Business Continuity Essentials -> พื้นฐานการบริหารความต่อเนื่องทางธุรกิจ
+Business Innovation Essentials -> พื้นฐานนวัตกรรมทางธุรกิจ
+Business Skills -> ทักษะทางธุรกิจ
+Career Management -> การบริหารจัดการอาชีพ
+Change Management -> การบริหารจัดการการเปลี่ยนแปลง
+Change Management Essentials -> พื้นฐานการบริหารจัดการการเปลี่ยนแปลง
+Coaching Applied -> การโค้ชภาคปฏิบัติ
+
+=== TAGS SAMPLE ===
+AI Basics -> พื้นฐาน AI
+Accident Prevention -> การป้องกันอุบัติเหตุ
+Accountability -> ความรับผิดชอบต่อผลงาน
+Accounting -> การบัญชี
+Active Listening -> การฟังอย่างใส่ใจ
+Adaptability -> ความสามารถในการปรับตัว
+Analytical Thinking -> การคิดเชิงวิเคราะห์
+Assertiveness -> ความกล้าแสดงออกอย่างเหมาะสม
+Attention to Detail -> ความใส่ใจในรายละเอียด
+Branding -> การสร้างแบรนด์

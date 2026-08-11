@@ -1,0 +1,1 @@
+Exception during translation: HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Max retries exceeded with url: /v1beta/models/gemini-3.5-flash:generateContent?key=AIzaSyAgAH9DYKDh2dri6o4n2oSGnji3n-_NPM8 (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)')))

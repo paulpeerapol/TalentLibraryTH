@@ -1,0 +1,26 @@
+[theme]
+base = "light"
+primaryColor = "#0284C7"             # Deep Ocean Blue Accent
+backgroundColor = "#F8FAFC"          # Light Slate Crisp Background
+secondaryBackgroundColor = "#FFFFFF" # Pure White Card
+textColor = "#0F172A"                # Deep Slate Black (Maximum Readability)
+borderColor = "#CBD5E1"              # Slate Gray Border
+showWidgetBorder = true
+showSidebarBorder = true
+baseRadius = "8px"
+buttonRadius = "8px"
+
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+headingFont = "Outfit:https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&display=swap"
+baseFontSize = 15
+baseFontWeight = 400
+headingFontSizes = ["34px", "26px", "22px", "18px", "15px", "13px"]
+headingFontWeights = [800, 700, 600, 600, 500, 500]
+linkUnderline = false
+
+[theme.sidebar]
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F1F5F9"
+borderColor = "#CBD5E1"
+textColor = "#0F172A"
+primaryColor = "#0284C7"

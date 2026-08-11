@@ -1,0 +1,13 @@
+# Environment variables & secrets
+.env
+config.py
+
+# Python cache & temp files
+__pycache__/
+*.pyc
+.gemini/
+scratch/
+
+# OS metadata
+.DS_Store
+Thumbs.db
