@@ -780,11 +780,32 @@ def main():
         
         /* Target all child elements (like <p>, <span>) inside primary buttons to force alignment, color, and size */
         div.stButton > button[data-testid="stBaseButton-primary"] * {
-            font-size: 1.5rem !important;
+            font-size: 1.45rem !important;
             font-weight: 700 !important;
             line-height: 1.3 !important;
             text-align: left !important;
+        }
+        
+        /* Matched course title styling - Large Dark Green Font */
+        .matched-title-wrapper div.stButton > button[data-testid="stBaseButton-primary"],
+        .matched-title-wrapper div.stButton > button[data-testid="stBaseButton-primary"] * {
+            color: #047857 !important;
+        }
+        .matched-title-wrapper div.stButton > button[data-testid="stBaseButton-primary"]:hover,
+        .matched-title-wrapper div.stButton > button[data-testid="stBaseButton-primary"]:hover * {
+            color: #065F46 !important;
+            text-decoration: underline !important;
+        }
+        
+        /* Standard course title styling - Large Blue Font */
+        .standard-title-wrapper div.stButton > button[data-testid="stBaseButton-primary"],
+        .standard-title-wrapper div.stButton > button[data-testid="stBaseButton-primary"] * {
             color: #0284C7 !important;
+        }
+        .standard-title-wrapper div.stButton > button[data-testid="stBaseButton-primary"]:hover,
+        .standard-title-wrapper div.stButton > button[data-testid="stBaseButton-primary"]:hover * {
+            color: #0369A1 !important;
+            text-decoration: underline !important;
         }
         
         div[data-testid="stButton"] button[key^="title_"]:hover,
@@ -1046,25 +1067,22 @@ def main():
                     
                     st.image(image_url, width='stretch')
                     
-                    # Check if course has matched video file in H:\4 TalentLibrary
+                    # Check if course has matched Thai audio in H:\4 TalentLibrary
                     obj_id = course["objectID"]
                     has_video = obj_id in matched_courses_set
                     t_th = titles_map.get(course["title"], course["title"])
+                    
                     if has_video:
-                        t_th = t_th + " *"
-                        title_color = "#047857" # Dark Green
-                        badge_html = "<span style='background-color: #D1FAE5; color: #047857; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; margin-left: 4px;'>🇹🇭 มีเสียงภาษาไทย</span>"
+                        t_th_display = f"{t_th} * 🇹🇭"
+                        st.markdown("<div class='matched-title-wrapper'>", unsafe_allow_html=True)
+                        if st.button(t_th_display, key=f"title_{course['objectID']}", type="primary", use_container_width=True):
+                            show_course_details(course, api_key)
+                        st.markdown("</div>", unsafe_allow_html=True)
                     else:
-                        title_color = "#0284C7" # Standard Blue
-                        badge_html = ""
-                        
-                    st.markdown(f"""
-                        <div style='font-family: "Prompt", sans-serif; margin-bottom: 6px;'>
-                            <div style='color: {title_color}; font-weight: 700; font-size: 1.02rem; line-height: 1.35;'>
-                                {t_th} {badge_html}
-                            </div>
-                        </div>
-                    """, unsafe_allow_html=True)
+                        st.markdown("<div class='standard-title-wrapper'>", unsafe_allow_html=True)
+                        if st.button(t_th, key=f"title_{course['objectID']}", type="primary", use_container_width=True):
+                            show_course_details(course, api_key)
+                        st.markdown("</div>", unsafe_allow_html=True)
                         
                     # Category, English Title and Skills consolidated into a single compact HTML block to minimize spacing
                     cat_parent = PARENT_CATS_MAP.get(course.get("cats", [""])[0], PARENT_CATS_MAP.get(html.unescape(course.get("cats", [""])[0]), "ทั่วไปและอื่นๆ (General & Others)"))
@@ -1072,7 +1090,7 @@ def main():
                     tags_th = [meta_map["tags"].get(t, t) for t in course.get("tags", [])[:2]]
                     
                     st.markdown(f"""
-                        <div style='margin-top: -2px; line-height: 1.35; font-family: "Prompt", sans-serif;'>
+                        <div style='margin-top: -6px; line-height: 1.35; font-family: "Prompt", sans-serif;'>
                             <div style='color: #64748B; font-size: 0.82rem; margin-bottom: 4px;'>{course['title']}</div>
                             <div style='color: #475569; font-size: 0.8rem; font-weight: 500; margin-bottom: 3px;'>📁 {cat_parent} • {subcat_th}</div>
                             <div style='color: #0284C7; font-size: 0.8rem; font-weight: 500;'>💡 {', '.join(tags_th)}</div>
@@ -1081,9 +1099,8 @@ def main():
                     
                     st.markdown("<div style='margin-top: 8px;'></div>", unsafe_allow_html=True)
                     
-                    # View details button
-                    btn_label = "🎧 ดูรายละเอียด & เสียงภาษาไทย *" if has_video else "🔍 ดูรายละเอียดวิชา"
-                    if st.button(btn_label, key=f"det_{course['objectID']}", use_container_width=True, type="primary" if has_video else "secondary"):
+                    # View details button (Restored to original label)
+                    if st.button("🔍 ดูรายละเอียดวิชา", key=f"det_{course['objectID']}", use_container_width=True):
                         show_course_details(course, api_key)
                         
         # 9.6 Pagination Buttons Render
