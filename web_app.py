@@ -706,6 +706,7 @@ def main():
         initial_sidebar_state="expanded"
     )
     # Load API Key from config or env
+    matched_courses_set = load_matched_courses()
     api_key = ""
     try:
         from config import GEMINI_API_KEY
