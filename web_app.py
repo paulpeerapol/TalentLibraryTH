@@ -610,7 +610,7 @@ def show_course_details(course, api_key):
     if has_video:
         title_th = title_th + " *"
         title_color = "#047857" # Dark Green
-        st.success("🟢 มีไฟล์วิดีโอเนื้อหาของหลักสูตรนี้ในคลัง H:\\4 TalentLibrary เรียบร้อยแล้ว *")
+        st.success("🇹🇭 มีเสียงบรรยายภาษาไทยของหลักสูตรนี้ในคลัง H:\\4 TalentLibrary เรียบร้อยแล้ว *")
     else:
         title_color = "#0F172A"
         
@@ -836,7 +836,7 @@ def main():
         label_visibility="collapsed",
         key=f"search_query_{fv}"
     )
-    selected_video_only = st.sidebar.checkbox("📹 แสดงเฉพาะหลักสูตรที่มีไฟล์วิดีโอ (250 วิชา)", value=False, key=f"video_only_{fv}")
+    selected_video_only = st.sidebar.checkbox("🇹🇭 แสดงเฉพาะหลักสูตรที่มีเสียงภาษาไทย (250 วิชา)", value=False, key=f"video_only_{fv}")
     
     # Reset page index on search changes
     if "prev_search" not in st.session_state or st.session_state.prev_search != search_query:
@@ -1053,7 +1053,7 @@ def main():
                     if has_video:
                         t_th = t_th + " *"
                         title_color = "#047857" # Dark Green
-                        badge_html = "<span style='background-color: #D1FAE5; color: #047857; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; margin-left: 4px;'>📹 มีไฟล์วิดีโอ</span>"
+                        badge_html = "<span style='background-color: #D1FAE5; color: #047857; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; margin-left: 4px;'>🇹🇭 มีเสียงภาษาไทย</span>"
                     else:
                         title_color = "#0284C7" # Standard Blue
                         badge_html = ""
@@ -1082,7 +1082,7 @@ def main():
                     st.markdown("<div style='margin-top: 8px;'></div>", unsafe_allow_html=True)
                     
                     # View details button
-                    btn_label = "🎬 ดูรายละเอียด & วิดีโอ *" if has_video else "🔍 ดูรายละเอียดวิชา"
+                    btn_label = "🎧 ดูรายละเอียด & เสียงภาษาไทย *" if has_video else "🔍 ดูรายละเอียดวิชา"
                     if st.button(btn_label, key=f"det_{course['objectID']}", use_container_width=True, type="primary" if has_video else "secondary"):
                         show_course_details(course, api_key)
                         
