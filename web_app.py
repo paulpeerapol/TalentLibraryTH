@@ -755,12 +755,17 @@ def main():
         }
         
         /* Complete reset for all title link buttons: NO background, NO border, NO box shadow */
-        .matched-title-wrapper button,
-        .standard-title-wrapper button,
+        .matched-title-wrapper div.stButton > button,
+        .matched-title-wrapper div.stButton > button[data-testid="stBaseButton-secondary"],
+        .standard-title-wrapper div.stButton > button,
+        .standard-title-wrapper div.stButton > button[data-testid="stBaseButton-secondary"],
         div[data-testid="stButton"] button[key^="title_"] {
             background: transparent !important;
             background-color: transparent !important;
             border: none !important;
+            border-width: 0 !important;
+            border-style: none !important;
+            border-color: transparent !important;
             border-radius: 0 !important;
             box-shadow: none !important;
             outline: none !important;
@@ -776,15 +781,12 @@ def main():
         }
 
         /* Force transparent background on hover, focus, active */
-        .matched-title-wrapper button:hover,
-        .matched-title-wrapper button:focus,
-        .matched-title-wrapper button:active,
-        .standard-title-wrapper button:hover,
-        .standard-title-wrapper button:focus,
-        .standard-title-wrapper button:active,
-        div[data-testid="stButton"] button[key^="title_"]:hover,
-        div[data-testid="stButton"] button[key^="title_"]:focus,
-        div[data-testid="stButton"] button[key^="title_"]:active {
+        .matched-title-wrapper div.stButton > button:hover,
+        .matched-title-wrapper div.stButton > button:focus,
+        .matched-title-wrapper div.stButton > button:active,
+        .standard-title-wrapper div.stButton > button:hover,
+        .standard-title-wrapper div.stButton > button:focus,
+        .standard-title-wrapper div.stButton > button:active {
             background: transparent !important;
             background-color: transparent !important;
             border: none !important;
@@ -793,35 +795,37 @@ def main():
         }
 
         /* Matched title text styling: Dark Green #047857, Large 1.4rem Font */
-        .matched-title-wrapper button *,
-        .matched-title-wrapper button p,
-        .matched-title-wrapper button span {
+        .matched-title-wrapper div.stButton > button *,
+        .matched-title-wrapper div.stButton > button p,
+        .matched-title-wrapper div.stButton > button span,
+        .matched-title-wrapper div.stButton > button div {
             color: #047857 !important;
             font-size: 1.4rem !important;
             font-weight: 700 !important;
             line-height: 1.3 !important;
             text-align: left !important;
         }
-        .matched-title-wrapper button:hover *,
-        .matched-title-wrapper button:hover p,
-        .matched-title-wrapper button:hover span {
+        .matched-title-wrapper div.stButton > button:hover *,
+        .matched-title-wrapper div.stButton > button:hover p,
+        .matched-title-wrapper div.stButton > button:hover span {
             color: #065F46 !important;
             text-decoration: underline !important;
         }
 
         /* Standard title text styling: Blue #0284C7, Large 1.4rem Font */
-        .standard-title-wrapper button *,
-        .standard-title-wrapper button p,
-        .standard-title-wrapper button span {
+        .standard-title-wrapper div.stButton > button *,
+        .standard-title-wrapper div.stButton > button p,
+        .standard-title-wrapper div.stButton > button span,
+        .standard-title-wrapper div.stButton > button div {
             color: #0284C7 !important;
             font-size: 1.4rem !important;
             font-weight: 700 !important;
             line-height: 1.3 !important;
             text-align: left !important;
         }
-        .standard-title-wrapper button:hover *,
-        .standard-title-wrapper button:hover p,
-        .standard-title-wrapper button:hover span {
+        .standard-title-wrapper div.stButton > button:hover *,
+        .standard-title-wrapper div.stButton > button:hover p,
+        .standard-title-wrapper div.stButton > button:hover span {
             color: #0369A1 !important;
             text-decoration: underline !important;
         }
