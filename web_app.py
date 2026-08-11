@@ -754,44 +754,54 @@ def main():
             font-family: inherit !important;
         }
         
-        /* Base styling for all title link buttons */
+        /* Complete reset for all title link buttons: NO background, NO border, NO box shadow */
+        .matched-title-wrapper button,
+        .standard-title-wrapper button,
         div[data-testid="stButton"] button[key^="title_"] {
+            background: transparent !important;
             background-color: transparent !important;
             border: none !important;
-            padding: 8px 0 2px 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            outline: none !important;
+            padding: 4px 0 !important;
             margin: 0 !important;
             text-align: left !important;
             justify-content: flex-start !important;
             align-items: flex-start !important;
-            font-size: 1.45rem !important;
-            font-weight: 700 !important;
-            line-height: 1.3 !important;
             cursor: pointer !important;
-            text-decoration: none !important;
-            display: inline-flex !important;
-            box-shadow: none !important;
-            transition: color 0.2s ease !important;
+            width: 100% !important;
             height: auto !important;
             min-height: 0 !important;
-            width: 100% !important;
         }
 
-        /* Matched course title styling (Dark Green) across ALL states: default, p, span, focus, active */
-        .matched-title-wrapper button,
+        /* Force transparent background on hover, focus, active */
+        .matched-title-wrapper button:hover,
+        .matched-title-wrapper button:focus,
+        .matched-title-wrapper button:active,
+        .standard-title-wrapper button:hover,
+        .standard-title-wrapper button:focus,
+        .standard-title-wrapper button:active,
+        div[data-testid="stButton"] button[key^="title_"]:hover,
+        div[data-testid="stButton"] button[key^="title_"]:focus,
+        div[data-testid="stButton"] button[key^="title_"]:active {
+            background: transparent !important;
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        /* Matched title text styling: Dark Green #047857, Large 1.4rem Font */
         .matched-title-wrapper button *,
         .matched-title-wrapper button p,
-        .matched-title-wrapper button span,
-        .matched-title-wrapper button:focus,
-        .matched-title-wrapper button:focus *,
-        .matched-title-wrapper button:active,
-        .matched-title-wrapper button:active * {
+        .matched-title-wrapper button span {
             color: #047857 !important;
-            font-size: 1.45rem !important;
+            font-size: 1.4rem !important;
             font-weight: 700 !important;
             line-height: 1.3 !important;
             text-align: left !important;
         }
-        .matched-title-wrapper button:hover,
         .matched-title-wrapper button:hover *,
         .matched-title-wrapper button:hover p,
         .matched-title-wrapper button:hover span {
@@ -799,22 +809,16 @@ def main():
             text-decoration: underline !important;
         }
 
-        /* Standard course title styling (Blue) across ALL states: default, p, span, focus, active */
-        .standard-title-wrapper button,
+        /* Standard title text styling: Blue #0284C7, Large 1.4rem Font */
         .standard-title-wrapper button *,
         .standard-title-wrapper button p,
-        .standard-title-wrapper button span,
-        .standard-title-wrapper button:focus,
-        .standard-title-wrapper button:focus *,
-        .standard-title-wrapper button:active,
-        .standard-title-wrapper button:active * {
+        .standard-title-wrapper button span {
             color: #0284C7 !important;
-            font-size: 1.45rem !important;
+            font-size: 1.4rem !important;
             font-weight: 700 !important;
             line-height: 1.3 !important;
             text-align: left !important;
         }
-        .standard-title-wrapper button:hover,
         .standard-title-wrapper button:hover *,
         .standard-title-wrapper button:hover p,
         .standard-title-wrapper button:hover span {
@@ -1058,12 +1062,12 @@ def main():
                     if has_video:
                         t_th_display = f"{t_th} * 🇹🇭"
                         st.markdown("<div class='matched-title-wrapper'>", unsafe_allow_html=True)
-                        if st.button(t_th_display, key=f"title_{course['objectID']}", type="primary", use_container_width=True):
+                        if st.button(t_th_display, key=f"title_{course['objectID']}", use_container_width=True):
                             show_course_details(course, api_key)
                         st.markdown("</div>", unsafe_allow_html=True)
                     else:
                         st.markdown("<div class='standard-title-wrapper'>", unsafe_allow_html=True)
-                        if st.button(t_th, key=f"title_{course['objectID']}", type="primary", use_container_width=True):
+                        if st.button(t_th, key=f"title_{course['objectID']}", use_container_width=True):
                             show_course_details(course, api_key)
                         st.markdown("</div>", unsafe_allow_html=True)
                         
