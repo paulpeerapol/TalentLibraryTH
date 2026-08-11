@@ -754,7 +754,11 @@ def main():
             font-family: inherit !important;
         }
         
-        /* Target the FIRST button inside every course card container (the Title link) */
+        /* Target all title buttons via Streamlit's container key class (div[class*="st-key-title_"] button) */
+        div[class*="st-key-title_"] button,
+        div[class*="st-key-title_"] button:hover,
+        div[class*="st-key-title_"] button:focus,
+        div[class*="st-key-title_"] button:active,
         [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button,
         [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button:hover,
         [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button:focus,
@@ -780,6 +784,7 @@ def main():
         }
 
         /* Large Font size & hover underline for title buttons */
+        div[class*="st-key-title_"] button *,
         [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button * {
             font-size: 1.35rem !important;
             font-weight: 700 !important;
@@ -787,6 +792,7 @@ def main():
             text-align: left !important;
         }
         
+        div[class*="st-key-title_"] button:hover *,
         [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button:hover * {
             text-decoration: underline !important;
         }
