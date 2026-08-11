@@ -836,6 +836,7 @@ def main():
         label_visibility="collapsed",
         key=f"search_query_{fv}"
     )
+    selected_video_only = st.sidebar.checkbox("📹 แสดงเฉพาะหลักสูตรที่มีไฟล์วิดีโอ (250 วิชา)", value=False, key=f"video_only_{fv}")
     
     # Reset page index on search changes
     if "prev_search" not in st.session_state or st.session_state.prev_search != search_query:
