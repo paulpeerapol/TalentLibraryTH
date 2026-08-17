@@ -663,7 +663,7 @@ def show_course_details(course, api_key):
         # Metadata section (รายละเอียดหลักสูตร) moved under the video - pushed up close to guide box
         raw_dur = details.get('duration', '10 mins')
         dur_th = raw_dur.replace("'", " นาที").replace(" mins", " นาที").replace(" min", " นาที")
-        st.markdown(f"<div style='margin-top: 8px; font-size: 14px; font-family: \"Prompt\", sans-serif;'>⏱️ <b>ระยะเวลาการเรียนรู้:</b> {dur_th}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-top: 8px; font-size: 14px; font-family: \"Prompt\", sans-serif;'>⏱️ <b>ระยะเวลาการเรียนรู้:</b> 15 นาที</div>", unsafe_allow_html=True)
         
         cat_th = [meta_map["cats"].get(c, c) for c in course.get("cats", [])]
         st.markdown(f"<div style='margin-top: 4px; font-size: 14px; font-family: \"Prompt\", sans-serif;'>📁 <b>หมวดหมู่:</b> {', '.join(cat_th)}</div>", unsafe_allow_html=True)
