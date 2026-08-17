@@ -1245,7 +1245,7 @@ def main():
                     
                     
                     # View details button (Restored to original label)
-                    if st.button("🔍 ดูรายละเอียดวิชา", key=f"det_{course['objectID']}", use_container_width=True):
+                    if st.button("🔍 ดูรายละเอียดหลักสูตร", key=f"det_{course['objectID']}", use_container_width=True):
                         show_course_details(course, api_key)
                         
         # 9.6 Bottom Pagination Buttons Render
