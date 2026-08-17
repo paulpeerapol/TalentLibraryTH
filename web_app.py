@@ -622,7 +622,7 @@ def show_course_details(course, api_key):
     
     with col_media:
         if details["video_url"]:
-            st.markdown("### 🎬 วิดีโอแนะนำหลักสูตร (Sample Video)")
+            st.markdown("### 🎬 วิดีโอตัวอย่างหลักสูตร")
             video_url = details["video_url"]
             if "youtube.com" in video_url or "youtu.be" in video_url:
                 video_id = None
@@ -645,7 +645,7 @@ def show_course_details(course, api_key):
                     st.components.v1.html(iframe_html, height=250)
                     
                     # Add translation guide as collapsible expander to save vertical space
-                    with st.expander("💡 วิธีเปิดซับไทย (Subtitles Guide)", expanded=False):
+                    with st.expander("💡 วิธีเปิดคำบรรยายภาษาไทย", expanded=False):
                         st.markdown("""
                         <ol style="font-size: 13px; color: #1E3A8A; margin: 0 0 0 16px; padding: 0; line-height: 1.5; font-family: 'Prompt', sans-serif;">
                             <li>คลิกที่ปุ่ม <b>ฟันเฟือง (Settings) ⚙️</b> ด้านขวาบนของตัวเล่นวิดีโอ</li>
@@ -663,7 +663,7 @@ def show_course_details(course, api_key):
         # Metadata section (รายละเอียดหลักสูตร) moved under the video - pushed up close to guide box
         raw_dur = details.get('duration', '10 mins')
         dur_th = raw_dur.replace("'", " นาที").replace(" mins", " นาที").replace(" min", " นาที")
-        st.markdown(f"<div style='margin-top: 8px; font-size: 14px; font-family: \"Prompt\", sans-serif;'>⏱️ <b>ระยะเวลาเรียน:</b> {dur_th}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-top: 8px; font-size: 14px; font-family: \"Prompt\", sans-serif;'>⏱️ <b>ระยะเวลาการเรียนรู้:</b> {dur_th}</div>", unsafe_allow_html=True)
         
         cat_th = [meta_map["cats"].get(c, c) for c in course.get("cats", [])]
         st.markdown(f"<div style='margin-top: 4px; font-size: 14px; font-family: \"Prompt\", sans-serif;'>📁 <b>หมวดหมู่:</b> {', '.join(cat_th)}</div>", unsafe_allow_html=True)
@@ -679,10 +679,10 @@ def show_course_details(course, api_key):
             st.markdown("### 🧠 ภาพรวมหลักสูตร (Course Overview)")
             st.write(details["course_desc_th"])
             
-            st.markdown("### 📝 เนื้อหาที่ครอบคลุม (What's Covered)")
+            st.markdown("### 📝 เนื้อหาการเรียนรู้")
             st.write(details["what_is_covered_desc_th"])
             
-            st.markdown("### 🚀 ทำไมทีมของคุณต้องการวิชานี้ (Why teams need this)")
+            st.markdown("### 🚀 ประโยชน์ที่ทีมจะได้รับ")
             st.write(details["why_take_this_course_desc_th"])
             
         with en_tab:
@@ -735,7 +735,7 @@ def main():
     st.sidebar.markdown("""
     <div style='margin-bottom: 15px; font-family: "Prompt", sans-serif;'>
         <h2 style='font-size: 1.8rem; font-weight: 700; color: #0284C7; margin: 0 0 6px 0; line-height: 1.2;'>TalentLibrary™ แปลไทย</h2>
-        <p style='font-size: 0.95rem; color: #475569; margin: 0; line-height: 1.45;'>ค้นหารายละเอียดหลักสูตรสำเร็จรูปภาษาไทย พร้อมวิดีโอตัวอย่างและหัวข้อการเรียนรู้ครบถ้วน</p>
+        <p style='font-size: 0.95rem; color: #475569; margin: 0; line-height: 1.45;'>ค้นหารายละเอียด หลักสูตรออนไลน์ภาษาไทย พร้อมวิดีโอตัวอย่างและเนื้อหาการเรียนรู้ที่ครบถ้วน</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -815,7 +815,7 @@ def main():
         label_visibility="collapsed",
         key=f"search_query_{fv}"
     )
-    selected_video_only = st.sidebar.checkbox("🇹🇭 แสดงเฉพาะหลักสูตรที่มีเสียงภาษาไทย (250 วิชา)", value=False, key=f"video_only_{fv}")
+    selected_video_only = st.sidebar.checkbox("🇹🇭 แสดงเฉพาะหลักสูตรที่มีเสียงภาษาไทย (250 หลักสูตร)", value=False, key=f"video_only_{fv}")
     
     # Reset page index on search changes
     if "prev_search" not in st.session_state or st.session_state.prev_search != search_query:
@@ -839,11 +839,11 @@ def main():
     option_to_parent_map = {"ทั้งหมด (All)": "All"}
     for p, count in parent_cat_counts.most_common():
         thai_part = p.split(" (")[0]
-        opt_text = f"{thai_part} ({count} วิชา)"
+        opt_text = f"{thai_part} ({count} หลักสูตร)"
         parent_options.append(opt_text)
         option_to_parent_map[opt_text] = p
         
-    selected_parent_opt = st.sidebar.selectbox("หมวดหมู่ใหญ่ (Parent Category)", parent_options, index=0, key=f"sel_parent_cat_{fv}")
+    selected_parent_opt = st.sidebar.selectbox("หมวดหมู่หลัก", parent_options, index=0, key=f"sel_parent_cat_{fv}")
     selected_parent = option_to_parent_map[selected_parent_opt]
     
     # 2. Count courses per subcategory (pre-filtered by selected parent category)
@@ -859,11 +859,11 @@ def main():
     option_to_subcat_map = {"ทั้งหมด (All)": "All"}
     for subcat, count in subcat_counts.most_common():
         subcat_thai = meta_map["cats"].get(subcat, subcat)
-        opt_text = f"{subcat_thai} ({count} วิชา)"
+        opt_text = f"{subcat_thai} ({count} หลักสูตร)"
         subcat_options.append(opt_text)
         option_to_subcat_map[opt_text] = subcat
         
-    selected_child_opt = st.sidebar.selectbox("หมวดหมู่รอง (Subcategory)", subcat_options, index=0, key=f"sel_child_cat_{fv}")
+    selected_child_opt = st.sidebar.selectbox("หมวดหมู่ย่อย", subcat_options, index=0, key=f"sel_child_cat_{fv}")
     selected_child = option_to_subcat_map[selected_child_opt]
     
     # 3. Count courses per parent tag/skill group (Independent of category selection)
@@ -881,11 +881,11 @@ def main():
     option_to_parent_tag_map = {"ทั้งหมด (All)": "All"}
     for p, count in parent_tag_counts.most_common():
         thai_part = p.split(" (")[0]
-        opt_text = f"{thai_part} ({count} วิชา)"
+        opt_text = f"{thai_part} ({count} หลักสูตร)"
         parent_tag_options.append(opt_text)
         option_to_parent_tag_map[opt_text] = p
         
-    selected_parent_tag_opt = st.sidebar.selectbox("กลุ่มทักษะใหญ่ (Parent Skill Group)", parent_tag_options, index=0, key=f"sel_parent_tag_{fv}")
+    selected_parent_tag_opt = st.sidebar.selectbox("กลุ่มทักษะหลัก", parent_tag_options, index=0, key=f"sel_parent_tag_{fv}")
     selected_parent_tag = option_to_parent_tag_map[selected_parent_tag_opt]
     
     # 4. Count courses per child tag/skill (pre-filtered by selected parent skill group)
@@ -901,11 +901,11 @@ def main():
     option_to_child_tag_map = {"ทั้งหมด (All)": "All"}
     for tag, count in child_tag_counts.most_common():
         tag_thai = meta_map["tags"].get(tag, tag)
-        opt_text = f"{tag_thai} ({count} วิชา)"
+        opt_text = f"{tag_thai} ({count} หลักสูตร)"
         child_tag_options.append(opt_text)
         option_to_child_tag_map[opt_text] = tag
         
-    selected_child_tag_opt = st.sidebar.selectbox("ทักษะย่อย (Sub-Skill / Tag)", child_tag_options, index=0, key=f"sel_child_tag_{fv}")
+    selected_child_tag_opt = st.sidebar.selectbox("ทักษะย่อย", child_tag_options, index=0, key=f"sel_child_tag_{fv}")
     selected_child_tag = option_to_child_tag_map[selected_child_tag_opt]
         
     # Filter logic execution
@@ -983,7 +983,7 @@ def main():
 
     # Display Filter Summary in Sidebar
     st.sidebar.divider()
-    st.sidebar.markdown(f"พบหลักสูตรที่ตรงตามเงื่อนไข **{total_courses:,}** วิชา จากทั้งหมด 1,089 วิชา")
+    st.sidebar.markdown(f"พบหลักสูตรที่ตรงตามเงื่อนไข **{total_courses:,}** หลักสูตร จากทั้งหมด 1,089 หลักสูตร")
     
     # 9.4 Pagination Calculation
     items_per_page = 12
@@ -1062,18 +1062,18 @@ def main():
             st.divider()
             col_p_prev, col_p_info, col_p_next = st.columns([1.5, 3, 1.5])
             with col_p_prev:
-                if st.button("⬅️ ก่อนหน้า (Previous)", disabled=(st.session_state.current_page == 1)):
+                if st.button("⬅️ ก่อนหน้า", disabled=(st.session_state.current_page == 1)):
                     st.session_state.current_page -= 1
                     st.rerun()
             with col_p_info:
                 st.markdown(
                     f"<div style='text-align: center; font-weight: bold; margin-top: 6px; color: #334155;'>"
-                    f"หน้า {st.session_state.current_page} / {total_pages} (แสดงคอร์สลำดับที่ {start_idx + 1} - {min(end_idx, total_courses)} จาก {total_courses} คอร์ส)"
+                    f"หน้า {st.session_state.current_page} / {total_pages} (แสดงหลักสูตรลำดับที่ {start_idx + 1} - {min(end_idx, total_courses)} จาก {total_courses:,} หลักสูตร)"
                     f"</div>",
                     unsafe_allow_html=True
                 )
             with col_p_next:
-                if st.button("ถัดไป (Next) ➡️", disabled=(st.session_state.current_page == total_pages)):
+                if st.button("ถัดไป ➡️", disabled=(st.session_state.current_page == total_pages)):
                     st.session_state.current_page += 1
                     st.rerun()
 
