@@ -1151,6 +1151,9 @@ def main():
                     if st.button(cat_btn_text, key=f"btn_cat_{course['objectID']}", use_container_width=True):
                         st.session_state["filter_parent_cat"] = cat_parent
                         st.session_state["filter_child_cat"] = raw_cat
+                        st.session_state["filter_parent_tag"] = "All"
+                        st.session_state["filter_child_tag"] = "All"
+                        st.session_state.filter_version += 1
                         st.session_state.current_page = 1
                         st.rerun()
                         
@@ -1163,8 +1166,11 @@ def main():
                             parent_tag = PARENT_TAGS_MAP.get(tag_code, "ทั่วไปและอื่นๆ (General & Others)")
                             with t_cols[t_idx]:
                                 if st.button(f"💡 {tag_th}", key=f"btn_tag_{course['objectID']}_{t_idx}", use_container_width=True):
+                                    st.session_state["filter_parent_cat"] = "All"
+                                    st.session_state["filter_child_cat"] = "All"
                                     st.session_state["filter_parent_tag"] = parent_tag
                                     st.session_state["filter_child_tag"] = tag_code
+                                    st.session_state.filter_version += 1
                                     st.session_state.current_page = 1
                                     st.rerun()
                     
