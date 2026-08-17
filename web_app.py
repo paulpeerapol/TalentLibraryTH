@@ -1105,10 +1105,37 @@ def main():
     details_cache = load_details_cache()
     st.divider()
 
-    # 9.5 Cards Grid layout
+    # 9.5 Cards Grid layout & Top Pagination Bar
     if total_courses == 0:
         st.warning("ไม่พบหลักสูตรที่ต้องการ กรุณาลองใช้คำค้นหาอื่นหรือปรับตัวกรอง")
     else:
+        # Top Pagination Bar
+        if total_pages > 1:
+            col_p_prev, col_p_info, col_p_next = st.columns([1.5, 3, 1.5])
+            with col_p_prev:
+                if st.button("⬅️ ก่อนหน้า", key="top_prev", disabled=(st.session_state.current_page == 1)):
+                    st.session_state.current_page -= 1
+                    st.rerun()
+            with col_p_info:
+                st.markdown(
+                    f"<div style='text-align: center; font-weight: bold; margin-top: 6px; color: #334155;'>"
+                    f"หน้า {st.session_state.current_page} / {total_pages} (แสดงหลักสูตรลำดับที่ {start_idx + 1} - {min(end_idx, total_courses)} จาก {total_courses:,} หลักสูตร)"
+                    f"</div>",
+                    unsafe_allow_html=True
+                )
+            with col_p_next:
+                if st.button("ถัดไป ➡️", key="top_next", disabled=(st.session_state.current_page == total_pages)):
+                    st.session_state.current_page += 1
+                    st.rerun()
+            st.markdown("<div style='margin-bottom: 12px;'></div>", unsafe_allow_html=True)
+        else:
+            st.markdown(
+                f"<div style='text-align: center; font-weight: bold; margin-bottom: 12px; color: #334155;'>"
+                f"หน้า 1 / 1 (แสดงหลักสูตรลำดับที่ 1 - {total_courses} จาก {total_courses:,} หลักสูตร)"
+                f"</div>",
+                unsafe_allow_html=True
+            )
+            
         # 4 Columns for grids
         cols = st.columns(4)
         for idx, course in enumerate(page_courses):
@@ -1180,12 +1207,12 @@ def main():
                     if st.button("🔍 ดูรายละเอียดวิชา", key=f"det_{course['objectID']}", use_container_width=True):
                         show_course_details(course, api_key)
                         
-        # 9.6 Pagination Buttons Render
+        # 9.6 Bottom Pagination Buttons Render
         if total_pages > 1:
             st.divider()
             col_p_prev, col_p_info, col_p_next = st.columns([1.5, 3, 1.5])
             with col_p_prev:
-                if st.button("⬅️ ก่อนหน้า", disabled=(st.session_state.current_page == 1)):
+                if st.button("⬅️ ก่อนหน้า", key="bottom_prev", disabled=(st.session_state.current_page == 1)):
                     st.session_state.current_page -= 1
                     st.rerun()
             with col_p_info:
@@ -1196,7 +1223,7 @@ def main():
                     unsafe_allow_html=True
                 )
             with col_p_next:
-                if st.button("ถัดไป ➡️", disabled=(st.session_state.current_page == total_pages)):
+                if st.button("ถัดไป ➡️", key="bottom_next", disabled=(st.session_state.current_page == total_pages)):
                     st.session_state.current_page += 1
                     st.rerun()
 
