@@ -749,6 +749,23 @@ def main():
             font-family: 'Prompt', sans-serif !important;
         }
         
+        /* Remove top whitespace padding from main content area and sidebar */
+        .block-container {
+            padding-top: 1rem !important;
+            padding-bottom: 2rem !important;
+        }
+        header[data-testid="stHeader"] {
+            background: transparent !important;
+            height: 1rem !important;
+            min-height: 0 !important;
+        }
+        section[data-testid="stSidebar"] > div:first-child {
+            padding-top: 1rem !important;
+        }
+        div[data-testid="stMainBlockContainer"] {
+            padding-top: 1rem !important;
+        }
+        
         /* Protect Streamlit's native icon fonts from being overridden */
         [class*="Icon"], [class*="icon"], [data-testid="stIcon"], svg {
             font-family: inherit !important;
