@@ -700,7 +700,7 @@ def show_course_details(course, api_key):
 # ----------------------------------------------------
 def main():
     st.set_page_config(
-        page_title="คลังหลักสูตร TalentLibrary แปลไทย",
+        page_title="คลังหลักสูตร TalentLibrary ไทย",
         page_icon="📚",
         layout="wide",
         initial_sidebar_state="expanded"
@@ -734,7 +734,7 @@ def main():
     # Catalog Description (Moved from Main Page Hero)
     st.sidebar.markdown("""
     <div style='margin-bottom: 15px; font-family: "Prompt", sans-serif;'>
-        <h2 style='font-size: 1.8rem; font-weight: 700; color: #0284C7; margin: 0 0 6px 0; line-height: 1.2;'>TalentLibrary™ แปลไทย</h2>
+        <h2 style='font-size: 1.8rem; font-weight: 700; color: #0284C7; margin: 0 0 6px 0; line-height: 1.2;'>TalentLibrary™ ไทย</h2>
         <p style='font-size: 0.95rem; color: #475569; margin: 0; line-height: 1.45;'>ค้นหารายละเอียด หลักสูตรออนไลน์ภาษาไทย พร้อมวิดีโอตัวอย่างและเนื้อหาการเรียนรู้ที่ครบถ้วน</p>
     </div>
     """, unsafe_allow_html=True)
