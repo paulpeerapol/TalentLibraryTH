@@ -771,7 +771,17 @@ def main():
             font-family: inherit !important;
         }
         
-        /* Target all title buttons via Streamlit's container key class (div[class*="st-key-title_"] button) */
+        /* Ultra-compact Course Card Container */
+        [data-testid="stVerticalBlockBorderWrapper"] {
+            padding: 4px !important;
+            border-radius: 8px !important;
+        }
+        [data-testid="stVerticalBlockBorderWrapper"] > div {
+            gap: 2px !important;
+            padding: 4px !important;
+        }
+        
+        /* Compact Card Title Button */
         div[class*="st-key-title_"] button,
         div[class*="st-key-title_"] button:hover,
         div[class*="st-key-title_"] button:focus,
@@ -784,12 +794,8 @@ def main():
             background-color: transparent !important;
             border: none !important;
             border-width: 0 !important;
-            border-style: none !important;
-            border-color: transparent !important;
-            border-radius: 0 !important;
             box-shadow: none !important;
-            outline: none !important;
-            padding: 4px 0 !important;
+            padding: 2px 0 1px 0 !important;
             margin: 0 !important;
             text-align: left !important;
             justify-content: flex-start !important;
@@ -800,12 +806,12 @@ def main():
             min-height: 0 !important;
         }
 
-        /* Large Font size & hover underline for title buttons */
+        /* Compact Font size & line-height for title buttons */
         div[class*="st-key-title_"] button *,
         [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button * {
-            font-size: 1.35rem !important;
+            font-size: 1.15rem !important;
             font-weight: 700 !important;
-            line-height: 1.3 !important;
+            line-height: 1.25 !important;
             text-align: left !important;
         }
         
@@ -814,15 +820,16 @@ def main():
             text-decoration: underline !important;
         }
 
-        /* Card Category Pill Buttons */
+        /* Ultra-compact Card Category Pill Buttons */
         div[data-testid="stButton"] button[key^="btn_cat_"] {
             background: #F1F5F9 !important;
             background-color: #F1F5F9 !important;
             border: 1px solid #CBD5E1 !important;
-            border-radius: 6px !important;
-            padding: 2px 8px !important;
-            margin: 2px 0 4px 0 !important;
-            font-size: 0.78rem !important;
+            border-radius: 4px !important;
+            padding: 1px 5px !important;
+            margin: 1px 0 2px 0 !important;
+            font-size: 0.74rem !important;
+            line-height: 1.2 !important;
             font-weight: 500 !important;
             color: #334155 !important;
             text-align: left !important;
@@ -841,20 +848,22 @@ def main():
             color: #0284C7 !important;
         }
         div[data-testid="stButton"] button[key^="btn_cat_"] * {
-            font-size: 0.78rem !important;
+            font-size: 0.74rem !important;
+            line-height: 1.2 !important;
             font-weight: 500 !important;
             color: inherit !important;
         }
 
-        /* Card Skill Tag Pill Buttons */
+        /* Ultra-compact Card Skill Tag Pill Buttons */
         div[data-testid="stButton"] button[key^="btn_tag_"] {
             background: #F0F9FF !important;
             background-color: #F0F9FF !important;
             border: 1px solid #BAE6FD !important;
-            border-radius: 6px !important;
-            padding: 2px 6px !important;
-            margin: 2px 0 !important;
-            font-size: 0.75rem !important;
+            border-radius: 4px !important;
+            padding: 1px 4px !important;
+            margin: 1px 0 !important;
+            font-size: 0.72rem !important;
+            line-height: 1.2 !important;
             font-weight: 500 !important;
             color: #0284C7 !important;
             text-align: center !important;
@@ -873,9 +882,24 @@ def main():
             color: #0369A1 !important;
         }
         div[data-testid="stButton"] button[key^="btn_tag_"] * {
-            font-size: 0.75rem !important;
+            font-size: 0.72rem !important;
+            line-height: 1.2 !important;
             font-weight: 500 !important;
             color: inherit !important;
+        }
+
+        /* Ultra-compact Card Details Button */
+        div[data-testid="stButton"] button[key^="det_"] {
+            padding: 3px 6px !important;
+            margin: 2px 0 0 0 !important;
+            font-size: 0.8rem !important;
+            line-height: 1.2 !important;
+            min-height: 0 !important;
+            height: auto !important;
+        }
+        div[data-testid="stButton"] button[key^="det_"] * {
+            font-size: 0.8rem !important;
+            line-height: 1.2 !important;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -1183,7 +1207,7 @@ def main():
                         show_course_details(course, api_key)
                         
                     # English Title
-                    st.markdown(f"""<div style='color: #64748B; font-size: 0.82rem; margin-top: -6px; margin-bottom: 4px; font-family: "Prompt", sans-serif;'>{course['title']}</div>""", unsafe_allow_html=True)
+                    st.markdown(f"""<div style='color: #64748B; font-size: 0.78rem; line-height: 1.2; margin-top: -4px; margin-bottom: 3px; font-family: "Prompt", sans-serif;'>{course['title']}</div>""", unsafe_allow_html=True)
                     
                     # Interactive Category Pill Button: 📁 หมวดหมู่หลัก • หมวดหมู่ย่อย
                     raw_cat = course.get("cats", [""])[0] if course.get("cats") else ""
@@ -1218,7 +1242,7 @@ def main():
                                     st.session_state.current_page = 1
                                     st.rerun()
                     
-                    st.markdown("<div style='margin-top: 8px;'></div>", unsafe_allow_html=True)
+                    
                     
                     # View details button (Restored to original label)
                     if st.button("🔍 ดูรายละเอียดวิชา", key=f"det_{course['objectID']}", use_container_width=True):
