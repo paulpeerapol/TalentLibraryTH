@@ -796,6 +796,70 @@ def main():
         [data-testid="stVerticalBlockBorderWrapper"] div.stButton:first-of-type > button:hover * {
             text-decoration: underline !important;
         }
+
+        /* Card Category Pill Buttons */
+        div[data-testid="stButton"] button[key^="btn_cat_"] {
+            background: #F1F5F9 !important;
+            background-color: #F1F5F9 !important;
+            border: 1px solid #CBD5E1 !important;
+            border-radius: 6px !important;
+            padding: 2px 8px !important;
+            margin: 2px 0 4px 0 !important;
+            font-size: 0.78rem !important;
+            font-weight: 500 !important;
+            color: #334155 !important;
+            text-align: left !important;
+            justify-content: flex-start !important;
+            align-items: center !important;
+            display: inline-flex !important;
+            box-shadow: none !important;
+            height: auto !important;
+            min-height: 0 !important;
+            width: 100% !important;
+        }
+        div[data-testid="stButton"] button[key^="btn_cat_"]:hover {
+            background: #E2E8F0 !important;
+            background-color: #E2E8F0 !important;
+            border-color: #0284C7 !important;
+            color: #0284C7 !important;
+        }
+        div[data-testid="stButton"] button[key^="btn_cat_"] * {
+            font-size: 0.78rem !important;
+            font-weight: 500 !important;
+            color: inherit !important;
+        }
+
+        /* Card Skill Tag Pill Buttons */
+        div[data-testid="stButton"] button[key^="btn_tag_"] {
+            background: #F0F9FF !important;
+            background-color: #F0F9FF !important;
+            border: 1px solid #BAE6FD !important;
+            border-radius: 6px !important;
+            padding: 2px 6px !important;
+            margin: 2px 0 !important;
+            font-size: 0.75rem !important;
+            font-weight: 500 !important;
+            color: #0284C7 !important;
+            text-align: center !important;
+            justify-content: center !important;
+            align-items: center !important;
+            display: inline-flex !important;
+            box-shadow: none !important;
+            height: auto !important;
+            min-height: 0 !important;
+            width: 100% !important;
+        }
+        div[data-testid="stButton"] button[key^="btn_tag_"]:hover {
+            background: #E0F2FE !important;
+            background-color: #E0F2FE !important;
+            border-color: #0369A1 !important;
+            color: #0369A1 !important;
+        }
+        div[data-testid="stButton"] button[key^="btn_tag_"] * {
+            font-size: 0.75rem !important;
+            font-weight: 500 !important;
+            color: inherit !important;
+        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -843,7 +907,16 @@ def main():
         parent_options.append(opt_text)
         option_to_parent_map[opt_text] = p
         
-    selected_parent_opt = st.sidebar.selectbox("หมวดหมู่หลัก", parent_options, index=0, key=f"sel_parent_cat_{fv}")
+    # Check session state for requested parent category filter from card button click
+    parent_def_idx = 0
+    req_parent = st.session_state.get("filter_parent_cat")
+    if req_parent:
+        for idx, opt in enumerate(parent_options):
+            if option_to_parent_map[opt] == req_parent:
+                parent_def_idx = idx
+                break
+                
+    selected_parent_opt = st.sidebar.selectbox("หมวดหมู่หลัก", parent_options, index=parent_def_idx, key=f"sel_parent_cat_{fv}")
     selected_parent = option_to_parent_map[selected_parent_opt]
     
     # 2. Count courses per subcategory (pre-filtered by selected parent category)
@@ -863,7 +936,15 @@ def main():
         subcat_options.append(opt_text)
         option_to_subcat_map[opt_text] = subcat
         
-    selected_child_opt = st.sidebar.selectbox("หมวดหมู่ย่อย", subcat_options, index=0, key=f"sel_child_cat_{fv}")
+    child_def_idx = 0
+    req_child = st.session_state.get("filter_child_cat")
+    if req_child:
+        for idx, opt in enumerate(subcat_options):
+            if option_to_subcat_map[opt] == req_child:
+                child_def_idx = idx
+                break
+                
+    selected_child_opt = st.sidebar.selectbox("หมวดหมู่ย่อย", subcat_options, index=child_def_idx, key=f"sel_child_cat_{fv}")
     selected_child = option_to_subcat_map[selected_child_opt]
     
     # 3. Count courses per parent tag/skill group (Independent of category selection)
@@ -885,7 +966,15 @@ def main():
         parent_tag_options.append(opt_text)
         option_to_parent_tag_map[opt_text] = p
         
-    selected_parent_tag_opt = st.sidebar.selectbox("กลุ่มทักษะหลัก", parent_tag_options, index=0, key=f"sel_parent_tag_{fv}")
+    parent_tag_def_idx = 0
+    req_parent_tag = st.session_state.get("filter_parent_tag")
+    if req_parent_tag:
+        for idx, opt in enumerate(parent_tag_options):
+            if option_to_parent_tag_map[opt] == req_parent_tag:
+                parent_tag_def_idx = idx
+                break
+                
+    selected_parent_tag_opt = st.sidebar.selectbox("กลุ่มทักษะหลัก", parent_tag_options, index=parent_tag_def_idx, key=f"sel_parent_tag_{fv}")
     selected_parent_tag = option_to_parent_tag_map[selected_parent_tag_opt]
     
     # 4. Count courses per child tag/skill (pre-filtered by selected parent skill group)
@@ -905,7 +994,15 @@ def main():
         child_tag_options.append(opt_text)
         option_to_child_tag_map[opt_text] = tag
         
-    selected_child_tag_opt = st.sidebar.selectbox("ทักษะย่อย", child_tag_options, index=0, key=f"sel_child_tag_{fv}")
+    child_tag_def_idx = 0
+    req_child_tag = st.session_state.get("filter_child_tag")
+    if req_child_tag:
+        for idx, opt in enumerate(child_tag_options):
+            if option_to_child_tag_map[opt] == req_child_tag:
+                child_tag_def_idx = idx
+                break
+                
+    selected_child_tag_opt = st.sidebar.selectbox("ทักษะย่อย", child_tag_options, index=child_tag_def_idx, key=f"sel_child_tag_{fv}")
     selected_child_tag = option_to_child_tag_map[selected_child_tag_opt]
         
     # Filter logic execution
@@ -979,6 +1076,9 @@ def main():
         if st.sidebar.button("🔄 ล้างตัวกรองทั้งหมด", use_container_width=True):
             st.session_state.filter_version += 1
             st.session_state.current_page = 1
+            for k in ["filter_parent_cat", "filter_child_cat", "filter_parent_tag", "filter_child_tag"]:
+                if k in st.session_state:
+                    del st.session_state[k]
             st.rerun()
 
     # Display Filter Summary in Sidebar
@@ -1038,18 +1138,35 @@ def main():
                     if st.button(t_th_display, key=f"title_{course['objectID']}", use_container_width=True):
                         show_course_details(course, api_key)
                         
-                    # Category, English Title and Skills consolidated into a single compact HTML block to minimize spacing
-                    cat_parent = PARENT_CATS_MAP.get(course.get("cats", [""])[0], PARENT_CATS_MAP.get(html.unescape(course.get("cats", [""])[0]), "ทั่วไปและอื่นๆ (General & Others)"))
-                    subcat_th = meta_map["cats"].get(course.get("cats", [""])[0], "ทั่วไป")
-                    tags_th = [meta_map["tags"].get(t, t) for t in course.get("tags", [])[:2]]
+                    # English Title
+                    st.markdown(f"""<div style='color: #64748B; font-size: 0.82rem; margin-top: -6px; margin-bottom: 4px; font-family: "Prompt", sans-serif;'>{course['title']}</div>""", unsafe_allow_html=True)
                     
-                    st.markdown(f"""
-                        <div style='margin-top: -6px; line-height: 1.35; font-family: "Prompt", sans-serif;'>
-                            <div style='color: #64748B; font-size: 0.82rem; margin-bottom: 4px;'>{course['title']}</div>
-                            <div style='color: #475569; font-size: 0.8rem; font-weight: 500; margin-bottom: 3px;'>📁 {cat_parent} • {subcat_th}</div>
-                            <div style='color: #0284C7; font-size: 0.8rem; font-weight: 500;'>💡 {', '.join(tags_th)}</div>
-                        </div>
-                    """, unsafe_allow_html=True)
+                    # Interactive Category Pill Button: 📁 หมวดหมู่หลัก • หมวดหมู่ย่อย
+                    raw_cat = course.get("cats", [""])[0] if course.get("cats") else ""
+                    cat_parent = PARENT_CATS_MAP.get(raw_cat, PARENT_CATS_MAP.get(html.unescape(raw_cat), "ทั่วไปและอื่นๆ (General & Others)"))
+                    parent_cat_short = cat_parent.split(" (")[0]
+                    subcat_th = meta_map["cats"].get(raw_cat, "ทั่วไป")
+                    
+                    cat_btn_text = f"📁 {parent_cat_short} • {subcat_th}"
+                    if st.button(cat_btn_text, key=f"btn_cat_{course['objectID']}", use_container_width=True):
+                        st.session_state["filter_parent_cat"] = cat_parent
+                        st.session_state["filter_child_cat"] = raw_cat
+                        st.session_state.current_page = 1
+                        st.rerun()
+                        
+                    # Interactive Skill Tag Pill Buttons: 💡 ทักษะย่อย
+                    tags_list = course.get("tags", [])[:2]
+                    if tags_list:
+                        t_cols = st.columns(len(tags_list))
+                        for t_idx, tag_code in enumerate(tags_list):
+                            tag_th = meta_map["tags"].get(tag_code, tag_code)
+                            parent_tag = PARENT_TAGS_MAP.get(tag_code, "ทั่วไปและอื่นๆ (General & Others)")
+                            with t_cols[t_idx]:
+                                if st.button(f"💡 {tag_th}", key=f"btn_tag_{course['objectID']}_{t_idx}", use_container_width=True):
+                                    st.session_state["filter_parent_tag"] = parent_tag
+                                    st.session_state["filter_child_tag"] = tag_code
+                                    st.session_state.current_page = 1
+                                    st.rerun()
                     
                     st.markdown("<div style='margin-top: 8px;'></div>", unsafe_allow_html=True)
                     
